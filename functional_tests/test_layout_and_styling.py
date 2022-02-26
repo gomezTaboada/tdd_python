@@ -21,5 +21,5 @@ class LayoutAndStylingTest(FunctionalTest):
         self.wait_for_row_in_list_table("1: testing")
         inputbox = self.get_item_input_box()
         self.assertAlmostEqual(
-            inputbox.location["x"] + inputbox.size["width"] / 2, 546, delta=40
+            inputbox.location["x"] + inputbox.size["width"] / 2, 580, delta=40
         )
