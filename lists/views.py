@@ -27,9 +27,23 @@ def view_list(request, list_id):
         if form.is_valid():
             form.save()
             return redirect(list_)
-    return render(request, "list.html", {"list": list_, "form": form})
+    return render(
+        request,
+        "list.html",
+        {"list": list_, "form": form},
+    )
 
 
 def my_lists(request, email):
     owner = User.objects.get(email=email)
-    return render(request, "my_lists.html", {"owner": owner})
+    shared_with = List.objects.filter(shared_with=owner).all()
+    return render(request, "my_lists.html", {"owner": owner, "shared_lists": shared_with})
+
+
+def share_my_list(request, list_id):
+    list_ = List.objects.get(id=list_id)
+    if request.method == "POST":
+        email = request.POST["sharee"]
+        list_.shared_with.add(email)
+
+    return redirect(list_.get_absolute_url())

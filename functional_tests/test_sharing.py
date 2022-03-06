@@ -1,7 +1,6 @@
 from selenium import webdriver
 from .base import FunctionalTest
 from selenium.common.exceptions import WebDriverException
-from .management.commands.create_session import create_pre_authenticated_session
 
 from .list_page import ListPage
 from .my_lists_page import MyListsPage
@@ -17,7 +16,7 @@ def quit_if_possible(browser):
 class SharingTest(FunctionalTest):
     def test_can_share_a_list_with_another_user(self):
         # Edith is a logged-in user
-        create_pre_authenticated_session("edith@example.com")
+        self.create_pre_authenticated_session("edith@example.com")
         edith_browser = self.browser
         self.addCleanup(lambda: quit_if_possible(edith_browser))
 
@@ -25,7 +24,7 @@ class SharingTest(FunctionalTest):
         oni_browser = webdriver.Firefox()
         self.addCleanup(lambda: quit_if_possible(oni_browser))
         self.browser = oni_browser
-        create_pre_authenticated_session("oniciferous@example.com")
+        self.create_pre_authenticated_session("oniciferous@example.com")
 
         # Edith goes to the home page and starts a list
         self.browser = edith_browser

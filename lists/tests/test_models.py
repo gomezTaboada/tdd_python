@@ -87,3 +87,11 @@ class ListModelTest(TestCase):
         returned = List.create_new(first_item_text="new item text")
         new_list = List.objects.first()
         self.assertEqual(returned, new_list)
+
+    def test_share_list_with_user(self):
+        other_user = User.objects.create(email="aol@aol.com")
+        user = User.objects.create(email="abc@abc.com")
+        list_ = List.create_new(first_item_text="new item text", owner=user)
+        list_.shared_with.add(other_user.email)
+
+        self.assertIn(other_user, list_.shared_with.all())
